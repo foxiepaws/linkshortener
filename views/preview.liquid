@@ -1,10 +1,26 @@
-{% if trigger %}
-<h1>This link has been marked as possibly triggering or NSFW for the following reason</h1>
-<h2>{{triggerContent}}</h2>
-{% endif %}
-<p>URL <code>{{link}}</code></p>
+<div class="container">
+    {% if trigger %}
+        <h1>This link has been marked as possibly triggering or NSFW for the following reason</h1>
+        <h2>{{triggerContent}}</h2>
+    {% endif %}
+    
+    <p>URL <code>{{link}}</code></p>
 
-<ul>
-  <li><a href="javascript:window.history.back()">Go back</a></li>
-  <li><a href="{{link}}">Go to the page</a></li>
-</ul>
+    <div class="row">
+        <div class="col-md-2"></div>
+        <div class="col-md-3 text-center">
+            <a class="btn btn-lg btn-danger" href="javascript:window.history.back()">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span> Go back
+            </a>
+        </div>
+        <div class="col-md-2">
+            <!-- I want this space to help people using alternative input methods from hitting the wrong one. -->
+        </div>
+        <div class="col-md-3 text-center">
+            <a class="btn btn-lg btn-success" href="{{link}}">
+                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span> Go to the page
+            </a>
+        </div>
+        <div class="col-md-2"></div>
+    </div>
+</div>
