@@ -1,12 +1,19 @@
 <div class="container">
+    <!-- {{errormsg}} -->
+    <span aria-hidden="true">&nbsp;</span>
+     {% if errormsg %}
+         <div class="alert alert-danger" role="alert">
+             {{errormsg}}
+         </div>
+     {% endif %}
     <h1>Submit Link</h1>
     <div class="row">
         <div class="col-md-2"></div>
         <div class="col-md-8">
-            <form method="post" class="bordered"> 
+            <form method="post" id="addlink" class="bordered"> 
                 <div class="form-group" id="linkAddressGroup">
                     <label for="linkAddress">Link</label>
-                    <input type="url" class="form-control" id="linkAddress"
+                    <input type="url" class="form-control" id="linkAddress" name="linkAddress"
                            required="true" placeholder="http://" onchange="validateForm()"
                            oninput="validateForm()" aria-described-by="linkAddressStatus">
                     <span class="glyphicon glyphicon-ok form-control-feedback hidden form_success" aria-hidden="true"></span>
@@ -15,16 +22,16 @@
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" id="tw"> Trigger Warning
+                        <input type="checkbox" id="tw" name="tw"> Trigger Warning
                     </label>
                 </div>
                 <div class="form-group">
                     <label for="triggerContent">Trigger Warnings</label>
-                    <input type="text" class="form-control" id="triggerContent" placeholder="NSFW, abuse, rape...">
+                    <input type="text" class="form-control" id="triggerContent" name="triggerContent" placeholder="NSFW, abuse, rape...">
                 </div>
                 <div class="form-group" id="customSlugGroup">
                     <label for="customSlug">Custom Slug</label>
-                    <input type="" class="form-control" id="customSlug" pattern="^[a-zA-Z0-9\-]+$"
+                    <input type="" class="form-control" id="customSlug" name="customSlug" pattern="^[a-zA-Z0-9\-]+$"
                            oninput="validateForm()" onchange="validateForm()" aria-described-by="customSlugStatus">
                     <span class="glyphicon glyphicon-ok form-control-feedback hidden form_success" aria-hidden="true"></span>
                     <span class="glyphicon glyphicon-remove form-control-feedback hidden form_error" aria-hidden="true"></span>
