@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        {% include 'head' %}
+        <title>{{page_title}} - {{ sitename }}</title>
+        
+    </head>
+    <body>
+        {% include 'nav' %}
+
+        {{yield}}
+
+        {% include 'footer' %}
+        {% include 'scripts' %}
+    </body>
+</html>
