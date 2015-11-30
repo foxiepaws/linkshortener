@@ -6,7 +6,7 @@ require 'pp'
 require 'ipaddr'
 require File.join File.dirname(__FILE__),'models/link'
 require File.join File.dirname(__FILE__),'models/hit'
-
+require File.join File.dirname(__FILE__),'utils'
 
 
 # TODO: RESTful API middleware
@@ -23,6 +23,7 @@ require File.join File.dirname(__FILE__),'models/hit'
 # TODO: ban code (before block.)
 
 module Linkshortener
+
   class App < Sinatra::Base
 
     configure do
@@ -51,34 +52,7 @@ module Linkshortener
     Link.raise_on_save_failure = true
     Hit.raise_on_save_failure = true
     
-    helpers do 
-      def stats(link)
-        dnt = (env['HTTP_DNT'] =~ /^1$/) ? true : false
-
-        print "stats routine: dnt on? " + dnt.to_s +
-              " tracking anyway? " + settings.always_track_hitcount.
-                                     to_s + "\n"
-        begin 
-          if dnt 
-            if settings.always_track_hitcount then
-              Hit.create(
-                :time => Time.now,
-                :link => link
-              )
-            end
-          else
-            Hit.create(
-              :user_agent => request.user_agent,
-              :referrer => request.referrer,
-              :time => Time.now,
-              :link => link
-            )
-          end
-        rescue DataMapper::SaveFailureError => e
-          print "DEBUG: " + e.resource.errors.inspect.to_s
-        end
-      end
-    end
+    helpers StatsUtils
     
        
     get '/' do
