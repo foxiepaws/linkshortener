@@ -3,7 +3,14 @@
     <span aria-hidden="true">&nbsp;</span>
      {% if errormsg %}
          <div class="alert alert-danger" role="alert">
+             <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
              {{errormsg}}
+         </div>
+     {% endif %}
+     {% if success %}
+         <div class="alert alert-success">
+             <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+             Your link has been added, default link: <code><a href="/{{slug}}">{{siteurl}}/{{slug}}</a></code> Preview link: <code><a href="/preview/{{slug}}">{{siteurl}}/preview/{{slug}}</a></code>
          </div>
      {% endif %}
     <h1>Submit Link</h1>
@@ -32,7 +39,7 @@
                 <div class="form-group" id="customSlugGroup">
                     <label for="customSlug">Custom Slug</label>
                     <input type="" class="form-control" id="customSlug" name="customSlug" pattern="^[a-zA-Z0-9\-]+$"
-                           oninput="validateForm()" onchange="validateForm()" aria-described-by="customSlugStatus">
+                           oninput="validateForm()" onchange="validateFormW()" aria-described-by="customSlugStatus">
                     <span class="glyphicon glyphicon-ok form-control-feedback hidden form_success" aria-hidden="true"></span>
                     <span class="glyphicon glyphicon-remove form-control-feedback hidden form_error" aria-hidden="true"></span>
                     <span id="linkAddressStatus" class="sr-only hidden">(empty)</span>
@@ -57,7 +64,7 @@
          $('#linkAddressGroup .form_error').removeClass("hidden");
          $('#linkAddressStatus').text('(error)');
      }
-     if ($('#customSlug')[0].validity.valid) {
+     if ($('#customSlug')[0].validity.valid && ($('#customSlug')[0].value == "" || document.goodslug)) {
          $('#customSlugGroup').addClass("has-feedback has-success").removeClass('has-error');
          $('#customSlugGroup .form_success').removeClass("hidden");
          $('#customSlugGroup .form_error').addClass("hidden");
@@ -68,6 +75,15 @@
          $('#customSlugGroup .form_error').removeClass("hidden");
          $('#customSlugStatus').text('(error)');
      }
+ }
+ function checkExist(slug) {
+     $.getJSON("/existcheck/"+slug, function(data){
+         document.goodslug = !data
+     })
+ }
+ function validateFormW() {
+     checkExist($('#customSlug')[0].value);
+     validateForm();
  }
 </script>
 
